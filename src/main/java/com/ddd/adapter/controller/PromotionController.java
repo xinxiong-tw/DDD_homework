@@ -11,30 +11,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/promotions")
 @RequiredArgsConstructor
 public class PromotionController {
     private final PromotionApplication promotionApplication;
 
-    @PostMapping("/promotion" )
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Long createPromotion(@RequestBody PromotionRequest promotionRequest) {
         return promotionApplication.createPromotion(promotionRequest.toPromotion());
     }
 
-    @PutMapping("/promotion/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Long editPromotion(@PathVariable("id") Long id, @RequestBody PromotionRequest promotionRequest) {
         return promotionApplication.editPromotion(promotionRequest.toPromotion(id));
     }
 
-    @GetMapping("/promotions")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public Page<PageablePromotionResponse> getPromotions(@RequestParam(name = "page") int page,
-                                                         @RequestParam(name = "size") int size) {
+    public Page<PageablePromotionResponse> getPromotions(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                         @RequestParam(name = "size", defaultValue = "20") int size) {
         return promotionApplication.getPromotions(page, size).map(PageablePromotionResponse::fromPromotion);
     }
 
-    @GetMapping(value="/promotions/{id}")
+    @GetMapping(value="/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PromotionDetailResponse getPromotionById(@PathVariable("id") Long id) {
         return promotionApplication.getPromotionById(id).map(PromotionDetailResponse::fromPromotion)
