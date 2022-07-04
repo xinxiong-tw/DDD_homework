@@ -6,11 +6,13 @@ import com.ddd.domain.promotion.enums.Operator;
 import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
 import com.ddd.domain.promotion.valueObject.IdBlockListProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.*;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,6 +24,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "promotion_constraint")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class PromotionConstraintDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +37,19 @@ public class PromotionConstraintDao {
     private BigDecimal maxAmount;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> applicableChannelIds;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> applicableRoles;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> mustIncludedIds;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> mustExcludedIds;
 
     @Enumerated(EnumType.STRING)

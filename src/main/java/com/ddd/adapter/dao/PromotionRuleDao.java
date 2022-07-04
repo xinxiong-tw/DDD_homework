@@ -5,11 +5,13 @@ import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
 import com.ddd.domain.promotion.valueObject.rule.DiscountRule;
 import com.ddd.domain.promotion.valueObject.rule.PromotionRule;
 import com.ddd.domain.promotion.valueObject.rule.ReductionRule;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,6 +23,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "promotion_rule")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class PromotionRuleDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +35,7 @@ public class PromotionRuleDao {
     private BigDecimal reduceDiscountAmount;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> reducibleProductIds;
 
     public PromotionRule toPromotionRule() {

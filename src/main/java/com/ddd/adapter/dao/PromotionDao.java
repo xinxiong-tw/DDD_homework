@@ -4,8 +4,10 @@ import com.ddd.domain.calculation.valueObject.PromotionInfo;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.enums.PromotionStatus;
 import com.ddd.domain.promotion.enums.PromotionType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -17,6 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "promotion")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class PromotionDao {
 
     @Id
@@ -41,6 +44,7 @@ public class PromotionDao {
     private String description;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private List<String> tags;
 
     private int priority;
