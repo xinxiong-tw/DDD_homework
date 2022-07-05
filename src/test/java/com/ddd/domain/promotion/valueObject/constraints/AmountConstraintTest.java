@@ -74,4 +74,20 @@ class AmountConstraintTest {
         assertTrue(amountConstraint.isSatisfied(stubTransactionContext));
     }
 
+    @Test
+    void should_fail_if_total_price_is_350_and_min_amount_is_100_and_max_amount_is_300() {
+        ProductSet stubProductSet = Mockito.mock(ProductSet.class);
+        TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
+        AmountConstraint amountConstraint = new AmountConstraint(new BigDecimal(100), new BigDecimal(300), stubProductSet);
+        Mockito.when(stubProductSet.include(Mockito.any())).thenReturn(true);
+        Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(2).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(50)).count(2).build(),
+                PricedTransactionItem.builder().id("3").price(new BigDecimal(100)).count(1).build(),
+                PricedTransactionItem.builder().id("4").price(new BigDecimal(1)).count(50).build()
+        ));
+
+        assertFalse(amountConstraint.isSatisfied(stubTransactionContext));
+    }
+
 }
