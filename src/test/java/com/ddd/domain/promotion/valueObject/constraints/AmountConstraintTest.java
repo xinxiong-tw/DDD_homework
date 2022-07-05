@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -90,4 +91,20 @@ class AmountConstraintTest {
         assertFalse(amountConstraint.isSatisfied(stubTransactionContext));
     }
 
+    @Test
+    void should_pass_with_filter_products_total_price_is_100_and_min_amount_is_200() {
+        ProductSet stubProductSet = Mockito.mock(ProductSet.class);
+        TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
+        AmountConstraint amountConstraint = new AmountConstraint(new BigDecimal(200), null, stubProductSet);
+        Mockito.when(stubProductSet.include("3")).thenReturn(true);
+        Mockito.when(stubProductSet.include(Mockito.argThat(it -> !it.equals("3")))).thenReturn(false);
+        Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(2).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(50)).count(2).build(),
+                PricedTransactionItem.builder().id("3").price(new BigDecimal(100)).count(1).build(),
+                PricedTransactionItem.builder().id("4").price(new BigDecimal(1)).count(50).build()
+        ));
+
+        assertFalse(amountConstraint.isSatisfied(stubTransactionContext));
+    }
 }
