@@ -16,6 +16,7 @@ class AmountConstraintTest {
     // 200 > 100
     // 200 < 300
     // 200 = 200
+    // 100 < 200 < 300
 
     @Test
     void should_pass_if_total_amount_is_200_and_min_amount_is_100() {
@@ -50,6 +51,20 @@ class AmountConstraintTest {
         ProductSet stubProductSet = Mockito.mock(ProductSet.class);
         TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
         AmountConstraint amountConstraint = new AmountConstraint(new BigDecimal(200), null, stubProductSet);
+        Mockito.when(stubProductSet.include(Mockito.any())).thenReturn(true);
+        Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(2).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(50)).count(2).build()
+        ));
+
+        assertTrue(amountConstraint.isSatisfied(stubTransactionContext));
+    }
+
+    @Test
+    void should_pass_if_total_amount_is_200_and_min_amount_is_100_and_max_amount_is_300() {
+        ProductSet stubProductSet = Mockito.mock(ProductSet.class);
+        TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
+        AmountConstraint amountConstraint = new AmountConstraint(new BigDecimal(100), new BigDecimal(300), stubProductSet);
         Mockito.when(stubProductSet.include(Mockito.any())).thenReturn(true);
         Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(2).build(),
