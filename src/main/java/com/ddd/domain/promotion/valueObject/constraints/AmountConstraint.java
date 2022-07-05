@@ -29,7 +29,7 @@ public class AmountConstraint extends PromotionConstraint{
                 .stream()
                 .filter(it -> productSet.include(it.getId()))
                 .map(PricedTransactionItem::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
-        return Optional.ofNullable(minAmount).map(it -> orderTotalPrice.compareTo(it) < 0).orElse(true)
-                && Optional.ofNullable(maxAmount).map(it -> orderTotalPrice.compareTo(it) > 0).orElse(true);
+        return Optional.ofNullable(minAmount).map(it -> orderTotalPrice.compareTo(it) >= 0).orElse(true)
+                && Optional.ofNullable(maxAmount).map(it -> orderTotalPrice.compareTo(it) <= 0).orElse(true);
     }
 }
