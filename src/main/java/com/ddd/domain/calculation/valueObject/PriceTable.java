@@ -1,7 +1,9 @@
 package com.ddd.domain.calculation.valueObject;
 
+import java.math.BigDecimal;
+
 public class PriceTable {
-    public Float getPriceById(String id) {
+    public BigDecimal getPriceById(String id) {
         return null;
     }
 }

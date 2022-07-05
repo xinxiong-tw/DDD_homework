@@ -12,18 +12,12 @@ public class TransactionContext {
         this.customerInfo = customerInfo;
         this.priceTable = priceTable;
         this.channelInfo = channelInfo;
-        this.items = items.stream().map((item) -> {
-            String id = item.getId();
-            int count = item.getCount();
-            Float priceById = priceTable.getPriceById(id);
-            PricedTransactionItem pricedTransaction = PricedTransactionItem.builder()
-                    .id(id)
-                    .count(count)
-                    .price(priceById)
-                    .total(priceById * count)
-                    .build();
-            return pricedTransaction;
-        }).toList();
+        this.items = items.stream()
+                .map((it) -> PricedTransactionItem.builder()
+                        .id(it.getId())
+                        .count(it.getCount())
+                        .price(priceTable.getPriceById(it.getId()))
+                        .build()).toList();
     }
 
     private TransactionContext lastContext;
