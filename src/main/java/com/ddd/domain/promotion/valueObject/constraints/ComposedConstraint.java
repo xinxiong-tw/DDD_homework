@@ -23,6 +23,9 @@ public class ComposedConstraint extends PromotionConstraint {
 
     @Override
     public boolean isSatisfied(TransactionContext transactionContext) {
-        return false;
+        return switch (operator) {
+            case AND -> constraints.stream().allMatch(it -> it.isSatisfied(transactionContext));
+            case OR -> constraints.stream().anyMatch(it -> it.isSatisfied(transactionContext));
+        };
     }
 }
