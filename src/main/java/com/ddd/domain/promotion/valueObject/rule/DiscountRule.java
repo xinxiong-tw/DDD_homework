@@ -11,6 +11,7 @@ public class DiscountRule implements PromotionRule {
 
     @Override
     public TransactionContext applyRule(TransactionContext transactionContext) {
+        transactionContext.getItems().stream().map(it -> it.getTotalPrice());
         return null;
     }
 }
