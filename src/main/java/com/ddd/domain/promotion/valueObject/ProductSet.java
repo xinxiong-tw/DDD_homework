@@ -11,7 +11,11 @@ public interface ProductSet {
     public List<String> getProductIds();
 
     public static ProductSet of(List<String> ids) {
-        return Optional.ofNullable(ids).map(it -> (ProductSet) new ListProductSet(ids)).orElseGet(NullProductSet::new);
-    };
-
+        return Optional.ofNullable(ids).map(it -> {
+            if (it.isEmpty()) {
+                return new NullProductSet();
+            }
+            return new ListProductSet(ids);
+        }).orElseGet(NullProductSet::new);
+    }
 }
