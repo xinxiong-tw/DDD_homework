@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -25,10 +26,15 @@ public class ItemConstraint extends PromotionConstraint {
     @Override
     public boolean isSatisfied(TransactionContext transactionContext) {
         List<PricedTransactionItem> productItems = transactionContext.getItems();
-        boolean isAnyInAllowList = productItems.stream()
-                .anyMatch((item) -> mustIncludedProductSet.include(item.getId()));
-        boolean isAnyInBlockList = productItems.stream()
-                .anyMatch((item) -> mustExcludedProductSet.include(item.getId()));
-        return isAnyInAllowList && !isAnyInBlockList;
+        boolean isAllInMustIncludedList = Optional.ofNullable(mustIncludedProductSet)
+                .map(mustIncludedProductSet -> mustIncludedProductSet.isAllIn(productItems.stream()
+                        .map(PricedTransactionItem::getId)
+                        .toList())
+                ).orElse(true);
+        boolean isNoneInBlockList = Optional.ofNullable(mustExcludedProductSet)
+                .map(excludedProductSet -> productItems.stream()
+                        .noneMatch(it -> excludedProductSet.include(it.getId())))
+                .orElse(true);
+        return isAllInMustIncludedList && isNoneInBlockList;
     }
 }
