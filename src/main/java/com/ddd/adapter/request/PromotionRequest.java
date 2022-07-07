@@ -4,7 +4,7 @@ import com.ddd.domain.calculation.valueObject.PromotionInfo;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.enums.PromotionType;
 import com.ddd.domain.promotion.valueObject.Amount;
-import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
+import com.ddd.domain.promotion.valueObject.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.PromotionConstraint;
 import com.ddd.domain.promotion.valueObject.rule.DiscountRule;
 import com.ddd.domain.promotion.valueObject.rule.PromotionRule;
@@ -48,7 +48,7 @@ public class PromotionRequest {
                             .discountAmount(this.reduceDiscountAmount)
                             .maxAmount(this.reduceMaxAmount)
                             .build())
-                    .reducibleProductSet(IdAllowListProductSet.builder().productIds(this.reducibleProductIds).build())
+                    .reducibleProductSet(new ProductSet(this.reducibleProductIds))
                     .build();
         }
         return null;

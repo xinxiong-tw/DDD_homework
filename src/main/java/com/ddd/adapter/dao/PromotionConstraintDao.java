@@ -3,8 +3,7 @@ package com.ddd.adapter.dao;
 import com.ddd.domain.calculation.valueObject.CustomerRole;
 import com.ddd.domain.promotion.enums.ConstraintType;
 import com.ddd.domain.promotion.enums.Operator;
-import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
-import com.ddd.domain.promotion.valueObject.IdBlockListProductSet;
+import com.ddd.domain.promotion.valueObject.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.*;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
@@ -35,6 +34,9 @@ public class PromotionConstraintDao {
 
     private BigDecimal minAmount;
     private BigDecimal maxAmount;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private List<String> amountConstraintProductIds;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
@@ -63,14 +65,11 @@ public class PromotionConstraintDao {
         if (type == ConstraintType.CUSTOMER_ROLE) {
             return new CustomerRoleConstraint(this.applicableRoles.stream().map(CustomerRole::new).toList());
         } else if (type == ConstraintType.AMOUNT) {
-            return new AmountConstraint(this.minAmount, this.maxAmount,
-                    IdAllowListProductSet.builder().productIds(this.mustIncludedIds).build()
-            );
+            return new AmountConstraint(this.minAmount, this.maxAmount, new ProductSet(this.amountConstraintProductIds));
         } else if (type == ConstraintType.CHANNEL) {
             return new ChannelConstraint(this.applicableChannelIds);
         } else if (type == ConstraintType.ITEM) {
-            return new ItemConstraint(IdAllowListProductSet.builder().productIds(this.mustIncludedIds).build(),
-                    IdBlockListProductSet.builder().productIds(this.mustExcludedIds).build());
+            return new ItemConstraint(new ProductSet(this.mustIncludedIds), new ProductSet(this.mustExcludedIds));
         } else if (type == ConstraintType.COMPOSED) {
             return new ComposedConstraint(this.composedConstraint.stream()
                     .map(PromotionConstraintDao::toPromotionConstraint)
@@ -95,7 +94,7 @@ public class PromotionConstraintDao {
                     .type(ConstraintType.AMOUNT)
                     .maxAmount(amountConstraint.getMaxAmount())
                     .minAmount(amountConstraint.getMinAmount())
-                    .mustIncludedIds(((IdAllowListProductSet) amountConstraint.getProductSet()).getProductIds())
+                    .amountConstraintProductIds(amountConstraint.getProductSet().getProductIds())
                     .build();
         } else if (type == ConstraintType.CHANNEL) {
             ChannelConstraint channelConstraint = (ChannelConstraint) constraint;

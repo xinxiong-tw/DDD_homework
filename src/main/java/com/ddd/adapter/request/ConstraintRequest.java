@@ -3,8 +3,7 @@ package com.ddd.adapter.request;
 import com.ddd.domain.calculation.valueObject.CustomerRole;
 import com.ddd.domain.promotion.enums.ConstraintType;
 import com.ddd.domain.promotion.enums.Operator;
-import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
-import com.ddd.domain.promotion.valueObject.IdBlockListProductSet;
+import com.ddd.domain.promotion.valueObject.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.*;
 
 import java.math.BigDecimal;
@@ -31,9 +30,7 @@ public class ConstraintRequest {
             return AmountConstraint.builder()
                     .maxAmount(this.maxAmount)
                     .minAmount(this.minAmount)
-                    .productSet(IdAllowListProductSet.builder()
-                            .productIds(this.productIds)
-                            .build())
+                    .productSet(new ProductSet(this.productIds))
                     .build();
         } else if (this.type == ConstraintType.CHANNEL) {
             return ChannelConstraint.builder()
@@ -45,13 +42,13 @@ public class ConstraintRequest {
                     .build();
         } else if (this.type == ConstraintType.ITEM) {
             return ItemConstraint.builder()
-                    .mustExcludedProductSet(IdBlockListProductSet.builder().productIds(this.mustExcludedIds).build())
-                    .mustIncludedProductSet(IdAllowListProductSet.builder().productIds(this.mustIncludedIds).build())
+                    .mustExcludedProductSet(new ProductSet(this.mustExcludedIds))
+                    .mustIncludedProductSet(new ProductSet(this.mustIncludedIds))
                     .build();
         } else if (this.type == ConstraintType.COMPOSED) {
             return ComposedConstraint.builder()
                     .operator(this.operator)
-                    .constraints(this.composedConstraints.stream().map((item) -> item.toPromotionConstraint()).toList())
+                    .constraints(this.composedConstraints.stream().map(ConstraintRequest::toPromotionConstraint).toList())
                     .build();
         }
         return null;

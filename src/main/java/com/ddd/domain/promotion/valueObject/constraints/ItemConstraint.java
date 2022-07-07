@@ -3,8 +3,7 @@ package com.ddd.domain.promotion.valueObject.constraints;
 import com.ddd.domain.calculation.entity.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.enums.ConstraintType;
-import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
-import com.ddd.domain.promotion.valueObject.IdBlockListProductSet;
+import com.ddd.domain.promotion.valueObject.ProductSet;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,14 +13,14 @@ import java.util.List;
 @Getter
 public class ItemConstraint extends PromotionConstraint {
 
-    public ItemConstraint(IdAllowListProductSet mustIncludedProductSet, IdBlockListProductSet mustExcludedProductSet) {
+    public ItemConstraint(ProductSet mustIncludedProductSet, ProductSet mustExcludedProductSet) {
         super(ConstraintType.ITEM);
         this.mustIncludedProductSet = mustIncludedProductSet;
         this.mustExcludedProductSet = mustExcludedProductSet;
     }
 
-    private IdAllowListProductSet mustIncludedProductSet;
-    private IdBlockListProductSet mustExcludedProductSet;
+    private ProductSet mustIncludedProductSet;
+    private ProductSet mustExcludedProductSet;
 
     @Override
     public boolean isSatisfied(TransactionContext transactionContext) {

@@ -1,7 +1,7 @@
 package com.ddd.adapter.dao;
 
 import com.ddd.domain.promotion.valueObject.Amount;
-import com.ddd.domain.promotion.valueObject.IdAllowListProductSet;
+import com.ddd.domain.promotion.valueObject.ProductSet;
 import com.ddd.domain.promotion.valueObject.rule.DiscountRule;
 import com.ddd.domain.promotion.valueObject.rule.PromotionRule;
 import com.ddd.domain.promotion.valueObject.rule.ReductionRule;
@@ -43,9 +43,7 @@ public class PromotionRuleDao {
             return DiscountRule.builder().discountRate(this.discountRate).build();
         } else if (this.reduceMaxAmount != null || this.reduceDiscountAmount != null || this.reducibleProductIds != null) {
             return ReductionRule.builder()
-                    .reducibleProductSet(IdAllowListProductSet.builder()
-                            .productIds(this.reducibleProductIds)
-                            .build())
+                    .reducibleProductSet(new ProductSet(this.reducibleProductIds))
                     .reduceAmount(Amount.builder()
                             .maxAmount(this.reduceMaxAmount)
                             .discountAmount(this.reduceDiscountAmount)
