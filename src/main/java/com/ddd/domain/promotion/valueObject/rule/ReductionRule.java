@@ -6,7 +6,7 @@ import com.ddd.domain.promotion.valueObject.Amount;
 import lombok.Builder;
 
 @Builder
-public class ReductionRule extends PromotionRule {
+public class ReductionRule implements PromotionRule {
     private Amount reduceAmount;
     private ProductSet reducibleProductSet;
 

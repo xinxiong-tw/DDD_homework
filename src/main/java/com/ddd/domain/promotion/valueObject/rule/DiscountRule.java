@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public class DiscountRule extends PromotionRule {
+public class DiscountRule implements PromotionRule {
     private BigDecimal discountRate;
 
     @Override
