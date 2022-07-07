@@ -30,7 +30,7 @@ public class ConstraintRequest {
             return AmountConstraint.builder()
                     .maxAmount(this.maxAmount)
                     .minAmount(this.minAmount)
-                    .productSet(new ProductSet(this.productIds))
+                    .productSet(ProductSet.of(this.productIds))
                     .build();
         } else if (this.type == ConstraintType.CHANNEL) {
             return ChannelConstraint.builder()
@@ -42,8 +42,8 @@ public class ConstraintRequest {
                     .build();
         } else if (this.type == ConstraintType.ITEM) {
             return ItemConstraint.builder()
-                    .mustExcludedProductSet(new ProductSet(this.mustExcludedIds))
-                    .mustIncludedProductSet(new ProductSet(this.mustIncludedIds))
+                    .mustExcludedProductSet(ProductSet.of(this.mustExcludedIds))
+                    .mustIncludedProductSet(ProductSet.of(this.mustIncludedIds))
                     .build();
         } else if (this.type == ConstraintType.COMPOSED) {
             return ComposedConstraint.builder()

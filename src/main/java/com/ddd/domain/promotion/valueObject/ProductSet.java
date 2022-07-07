@@ -1,24 +1,17 @@
 package com.ddd.domain.promotion.valueObject;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
-public class ProductSet {
-    private List<String> productIds;
+public interface ProductSet {
+    public boolean include(String productId);
 
-    public ProductSet(List<String> productIds) {
-        this.productIds = productIds;
-    }
+    public boolean isAllIn(List<String> productIds);
 
-    public boolean include(String productId) {
-        return productIds.contains(productId);
-    }
+    public List<String> getProductIds();
 
-    public boolean isAllIn(List<String> productIds) {
-        return new HashSet<>(productIds).containsAll(this.productIds);
-    }
+    public static ProductSet of(List<String> ids) {
+        return Optional.ofNullable(ids).map(it -> (ProductSet) new ListProductSet(ids)).orElseGet(NullProductSet::new);
+    };
 
-    public List<String> getProductIds() {
-        return productIds;
-    }
 }

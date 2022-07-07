@@ -43,7 +43,7 @@ public class PromotionRuleDao {
             return DiscountRule.builder().discountRate(this.discountRate).build();
         } else if (this.reduceMaxAmount != null || this.reduceDiscountAmount != null || this.reducibleProductIds != null) {
             return ReductionRule.builder()
-                    .reducibleProductSet(new ProductSet(this.reducibleProductIds))
+                    .reducibleProductSet(ProductSet.of(this.reducibleProductIds))
                     .reduceAmount(Amount.builder()
                             .maxAmount(this.reduceMaxAmount)
                             .discountAmount(this.reduceDiscountAmount)

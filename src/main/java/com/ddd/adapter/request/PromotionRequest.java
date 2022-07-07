@@ -48,7 +48,7 @@ public class PromotionRequest {
                             .discountAmount(this.reduceDiscountAmount)
                             .maxAmount(this.reduceMaxAmount)
                             .build())
-                    .reducibleProductSet(new ProductSet(this.reducibleProductIds))
+                    .reducibleProductSet(ProductSet.of(this.reducibleProductIds))
                     .build();
         }
         return null;

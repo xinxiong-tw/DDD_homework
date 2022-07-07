@@ -65,11 +65,11 @@ public class PromotionConstraintDao {
         if (type == ConstraintType.CUSTOMER_ROLE) {
             return new CustomerRoleConstraint(this.applicableRoles.stream().map(CustomerRole::new).toList());
         } else if (type == ConstraintType.AMOUNT) {
-            return new AmountConstraint(this.minAmount, this.maxAmount, new ProductSet(this.amountConstraintProductIds));
+            return new AmountConstraint(this.minAmount, this.maxAmount, ProductSet.of(this.amountConstraintProductIds));
         } else if (type == ConstraintType.CHANNEL) {
             return new ChannelConstraint(this.applicableChannelIds);
         } else if (type == ConstraintType.ITEM) {
-            return new ItemConstraint(new ProductSet(this.mustIncludedIds), new ProductSet(this.mustExcludedIds));
+            return new ItemConstraint(ProductSet.of(this.mustIncludedIds), ProductSet.of(this.mustExcludedIds));
         } else if (type == ConstraintType.COMPOSED) {
             return new ComposedConstraint(this.composedConstraint.stream()
                     .map(PromotionConstraintDao::toPromotionConstraint)
