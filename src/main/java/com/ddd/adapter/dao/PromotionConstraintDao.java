@@ -3,7 +3,7 @@ package com.ddd.adapter.dao;
 import com.ddd.domain.calculation.valueObject.CustomerRole;
 import com.ddd.domain.promotion.enums.ConstraintType;
 import com.ddd.domain.promotion.enums.Operator;
-import com.ddd.domain.promotion.valueObject.ProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.*;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
@@ -94,7 +94,7 @@ public class PromotionConstraintDao {
                     .type(ConstraintType.AMOUNT)
                     .maxAmount(amountConstraint.getMaxAmount())
                     .minAmount(amountConstraint.getMinAmount())
-                    .amountConstraintProductIds(amountConstraint.getProductSet().getProductIds())
+                    .amountConstraintProductIds(amountConstraint.getProductSet().productIds())
                     .build();
         } else if (type == ConstraintType.CHANNEL) {
             ChannelConstraint channelConstraint = (ChannelConstraint) constraint;
@@ -106,8 +106,8 @@ public class PromotionConstraintDao {
             ItemConstraint itemConstraint = (ItemConstraint) constraint;
             return PromotionConstraintDao.builder()
                     .type(ConstraintType.ITEM)
-                    .mustIncludedIds(itemConstraint.getMustIncludedProductSet().getProductIds())
-                    .mustExcludedIds(itemConstraint.getMustExcludedProductSet().getProductIds())
+                    .mustIncludedIds(itemConstraint.getMustIncludedProductSet().productIds())
+                    .mustExcludedIds(itemConstraint.getMustExcludedProductSet().productIds())
                     .build();
         } else if (type == ConstraintType.COMPOSED) {
             ComposedConstraint composedConstraint = (ComposedConstraint) constraint;

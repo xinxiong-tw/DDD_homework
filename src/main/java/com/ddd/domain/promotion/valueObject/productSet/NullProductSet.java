@@ -1,4 +1,4 @@
-package com.ddd.domain.promotion.valueObject;
+package com.ddd.domain.promotion.valueObject.productSet;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class NullProductSet implements ProductSet {
     }
 
     @Override
-    public List<String> getProductIds() {
+    public List<String> productIds() {
         return null;
     }
 }

@@ -3,7 +3,7 @@ package com.ddd.domain.promotion.valueObject.constraints;
 import com.ddd.domain.calculation.entity.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.enums.ConstraintType;
-import com.ddd.domain.promotion.valueObject.ProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,16 +1,16 @@
-package com.ddd.domain.promotion.valueObject;
+package com.ddd.domain.promotion.valueObject.productSet;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductSet {
-    public boolean include(String productId);
+    boolean include(String productId);
 
-    public boolean isAllIn(List<String> productIds);
+    boolean isAllIn(List<String> productIds);
 
-    public List<String> getProductIds();
+    List<String> productIds();
 
-    public static ProductSet of(List<String> ids) {
+    static ProductSet of(List<String> ids) {
         return Optional.ofNullable(ids).map(it -> {
             if (it.isEmpty()) {
                 return new NullProductSet();

@@ -1,7 +1,7 @@
 package com.ddd.domain.promotion.valueObject.rule;
 
 import com.ddd.domain.calculation.valueObject.TransactionContext;
-import com.ddd.domain.promotion.valueObject.ProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.Amount;
 import lombok.Builder;
 

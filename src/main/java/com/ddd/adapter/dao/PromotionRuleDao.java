@@ -1,7 +1,7 @@
 package com.ddd.adapter.dao;
 
 import com.ddd.domain.promotion.valueObject.Amount;
-import com.ddd.domain.promotion.valueObject.ProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.rule.DiscountRule;
 import com.ddd.domain.promotion.valueObject.rule.PromotionRule;
 import com.ddd.domain.promotion.valueObject.rule.ReductionRule;
