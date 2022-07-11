@@ -4,7 +4,7 @@ import com.ddd.domain.calculation.entity.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.valueObject.Amount;
 import com.ddd.domain.promotion.valueObject.productSet.ListProductSet;
-import com.ddd.domain.promotion.valueObject.productSet.NullProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.AllProductSet;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -14,10 +14,11 @@ import java.util.List;
 class ReductionRuleTest {
     @Test
     void should_reduce_50_yuan_for_all_products() {
-        ReductionRule reductionRule = new ReductionRule(Amount.builder()
-                .discountAmount(new BigDecimal(50))
-                .build(),
-                new NullProductSet()
+        ReductionRule reductionRule = new ReductionRule(
+                Amount.builder()
+                        .discountAmount(new BigDecimal(50))
+                        .build(),
+                new AllProductSet()
         );
         TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
 

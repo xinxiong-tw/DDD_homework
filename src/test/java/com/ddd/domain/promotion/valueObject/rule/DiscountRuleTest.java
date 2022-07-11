@@ -3,7 +3,7 @@ package com.ddd.domain.promotion.valueObject.rule;
 import com.ddd.domain.calculation.entity.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.valueObject.productSet.ListProductSet;
-import com.ddd.domain.promotion.valueObject.productSet.NullProductSet;
+import com.ddd.domain.promotion.valueObject.productSet.AllProductSet;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -14,7 +14,7 @@ class DiscountRuleTest {
 
     @Test
     void should_discount_all_products_by_20_percent() {
-        DiscountRule discountRule = new DiscountRule(new BigDecimal("0.2"), new NullProductSet());
+        DiscountRule discountRule = new DiscountRule(new BigDecimal("0.2"), new AllProductSet());
         TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
 
         Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(

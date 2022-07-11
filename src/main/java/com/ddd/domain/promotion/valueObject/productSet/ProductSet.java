@@ -13,9 +13,9 @@ public interface ProductSet {
     static ProductSet of(List<String> ids) {
         return Optional.ofNullable(ids).map(it -> {
             if (it.isEmpty()) {
-                return new NullProductSet();
+                return new AllProductSet();
             }
             return new ListProductSet(ids);
-        }).orElseGet(NullProductSet::new);
+        }).orElseGet(AllProductSet::new);
     }
 }

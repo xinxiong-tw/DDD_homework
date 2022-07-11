@@ -2,7 +2,7 @@ package com.ddd.domain.promotion.valueObject.productSet;
 
 import java.util.List;
 
-public class NullProductSet implements ProductSet {
+public class AllProductSet implements ProductSet {
     @Override
     public boolean include(String productId) {
         return true;
@@ -10,7 +10,7 @@ public class NullProductSet implements ProductSet {
 
     @Override
     public boolean isAllIn(List<String> productIds) {
-        return true;
+        return false;
     }
 
     @Override
