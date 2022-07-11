@@ -33,20 +33,20 @@ public class PromotionRequest {
     private ConstraintRequest constraint;
 
     private BigDecimal discountRate;
-    private BigDecimal reduceMaxAmount;
+    private List<String> discountableProductIds;
     private BigDecimal reduceDiscountAmount;
     private List<String> reducibleProductIds;
 
     private PromotionRule convertDtoToPromotionRule() {
         if(this.discountRate != null) {
-            return DiscountRule.builder().discountRate(this.discountRate).build();
-        } else if (this.reducibleProductIds != null
-                || this.reduceMaxAmount != null
-                || this.reduceDiscountAmount != null) {
+            return DiscountRule.builder()
+                    .discountRate(this.discountRate)
+                    .discountableProductSet(ProductSet.of(this.discountableProductIds))
+                    .build();
+        } else if (this.reduceDiscountAmount != null) {
             return ReductionRule.builder()
                     .reduceAmount(Amount.builder()
                             .discountAmount(this.reduceDiscountAmount)
-                            .maxAmount(this.reduceMaxAmount)
                             .build())
                     .reducibleProductSet(ProductSet.of(this.reducibleProductIds))
                     .build();

@@ -30,23 +30,26 @@ public class PromotionRuleDao {
     private Long id;
 
     private BigDecimal discountRate;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private List<String> discountableProductIds;
 
-    private BigDecimal reduceMaxAmount;
-    private BigDecimal reduceDiscountAmount;
-
+    private BigDecimal discountAmount;
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private List<String> reducibleProductIds;
 
     public PromotionRule toPromotionRule() {
         if (this.discountRate != null) {
-            return DiscountRule.builder().discountRate(this.discountRate).build();
-        } else if (this.reduceMaxAmount != null || this.reduceDiscountAmount != null || this.reducibleProductIds != null) {
+            return DiscountRule.builder()
+                    .discountRate(this.discountRate)
+                    .discountableProductSet(ProductSet.of(this.discountableProductIds))
+                    .build();
+        } else if (this.discountAmount != null) {
             return ReductionRule.builder()
                     .reducibleProductSet(ProductSet.of(this.reducibleProductIds))
                     .reduceAmount(Amount.builder()
-                            .maxAmount(this.reduceMaxAmount)
-                            .discountAmount(this.reduceDiscountAmount)
+                            .discountAmount(this.discountAmount)
                             .build())
                     .build();
         }

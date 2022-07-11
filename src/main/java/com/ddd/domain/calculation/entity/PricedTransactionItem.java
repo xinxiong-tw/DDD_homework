@@ -1,13 +1,12 @@
 package com.ddd.domain.calculation.entity;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Builder
-@EqualsAndHashCode
 @Getter
 public class PricedTransactionItem {
     private String id;
@@ -20,5 +19,18 @@ public class PricedTransactionItem {
 
     public BigDecimal getTotalPrice() {
         return price.multiply(new BigDecimal(count));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PricedTransactionItem that = (PricedTransactionItem) o;
+        return count == that.count && Objects.equals(id, that.id) && price.compareTo(that.getPrice()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, price, count);
     }
 }

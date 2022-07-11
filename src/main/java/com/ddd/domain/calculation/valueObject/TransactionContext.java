@@ -20,11 +20,28 @@ public class TransactionContext {
                         .build()).toList();
     }
 
+    private TransactionContext(CustomerInfo customerInfo, ChannelInfo channelInfo, List<PricedTransactionItem> items) {
+        this.customerInfo = customerInfo;
+        this.channelInfo = channelInfo;
+        this.items = items;
+    }
+
     private TransactionContext lastContext;
-    private CustomerInfo customerInfo;
+    private final CustomerInfo customerInfo;
     private PriceTable priceTable;
-    private ChannelInfo channelInfo;
-    private List<PricedTransactionItem> items;
+    private final ChannelInfo channelInfo;
+    private final List<PricedTransactionItem> items;
+
+    private void addTransactionContext(TransactionContext context) {
+        TransactionContext lastContext = this;
+        while (lastContext.lastContext != null) {
+            lastContext = lastContext.lastContext;
+        }
+        lastContext.lastContext = context;
+    }
+    private TransactionContext setPricedTransactionContext(List<PricedTransactionItem> items) {
+        return new TransactionContext(this.getCustomerInfo(), this.getChannelInfo(), items);
+    }
 
     public List<PricedTransactionItem> getItems() {
         return this.items;
@@ -40,5 +57,13 @@ public class TransactionContext {
 
     public ChannelInfo getChannelInfo() {
         return channelInfo;
+    }
+
+    public TransactionContext getLastContext() {
+        return lastContext;
+    }
+
+    public void addNextPricedTransactionItems(List<PricedTransactionItem> nextPricedTransactionItems) {
+        addTransactionContext(setPricedTransactionContext(nextPricedTransactionItems));
     }
 }
