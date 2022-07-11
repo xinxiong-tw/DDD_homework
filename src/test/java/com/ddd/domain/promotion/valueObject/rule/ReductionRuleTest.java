@@ -56,4 +56,26 @@ class ReductionRuleTest {
         ));
     }
 
+    @Test
+    void should_reduce_to_0_at_most_for_selected_products() {
+        ReductionRule reductionRule = new ReductionRule(Amount.builder()
+                .discountAmount(new BigDecimal(200))
+                .build(),
+                new ListProductSet(List.of("1"))
+        );
+        TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
+
+        Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(100)).count(1).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        ));
+
+        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext);
+
+        Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        ));
+    }
+
 }
