@@ -48,4 +48,22 @@ class DiscountRuleTest {
         ));
     }
 
+    @Test
+    void should_discount_max_to_100_percent() {
+        DiscountRule discountRule = new DiscountRule(new BigDecimal("1.5"), new ListProductSet(List.of("1")));
+        TransactionContext stubTransactionContext = Mockito.mock(TransactionContext.class);
+
+        Mockito.when(stubTransactionContext.getItems()).thenReturn(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(100)).count(1).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        ));
+
+        TransactionContext appliedTransactionContext = discountRule.applyRule(stubTransactionContext);
+
+        Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        ));
+    }
+
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 public class DiscountRule implements PromotionRule {
@@ -29,11 +30,10 @@ public class DiscountRule implements PromotionRule {
                 ).toList();
     }
 
-    private BigDecimal getDiscountedPrice(PricedTransactionItem it) {
-        BigDecimal newPrice = it.getPrice();
-        if (discountableProductSet.include(it.getId())) {
-            newPrice = it.getPrice().multiply(BigDecimal.ONE.subtract(discountRate));
-        }
-        return newPrice;
+    private BigDecimal getDiscountedPrice(PricedTransactionItem pricedTransactionItem) {
+        return Optional.of(pricedTransactionItem)
+                .filter(it -> discountableProductSet.include(it.getId()))
+                .map(it -> it.getPrice().multiply(BigDecimal.ONE.subtract(discountRate).max(BigDecimal.ZERO)))
+                .orElseGet(pricedTransactionItem::getPrice);
     }
 }
