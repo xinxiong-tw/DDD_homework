@@ -1,5 +1,6 @@
 package com.ddd.domain.calculation.entity;
 
+import com.ddd.domain.calculation.valueObject.AppliedPromotionRuleInfo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,6 +13,8 @@ public class PricedTransactionItem {
     private String id;
     private BigDecimal price;
     private int count;
+
+    private AppliedPromotionRuleInfo appliedPromotionRuleInfo;
 
     public String getId() {
         return id;
@@ -33,4 +36,5 @@ public class PricedTransactionItem {
     public int hashCode() {
         return Objects.hash(id, price, count);
     }
+
 }

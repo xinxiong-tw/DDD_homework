@@ -1,4 +1,8 @@
 package com.ddd.domain.calculation.valueObject;
 
-public class CalculatedResultSummary {
+import java.math.BigDecimal;
+import java.util.List;
+
+public record CalculatedResultSummary(BigDecimal originTotalPrice, List<AppliedPromotionRuleInfo> promotions,
+                                      BigDecimal discountedTotalPrice) {
 }

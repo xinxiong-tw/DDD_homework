@@ -1,6 +1,7 @@
 package com.ddd.domain.calculation.service;
 
 import com.ddd.application.CalculateTransactionCommand;
+import com.ddd.application.PromotionApplication;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.calculation.valueObject.TransactionCalculatedResult;
 import com.ddd.domain.calculation.entity.Transaction;
@@ -13,12 +14,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CalculationService {
-    public TransactionCalculatedResult calculate(CalculateTransactionCommand command, List<Promotion> promotions) {
+    private final PromotionApplication promotionApplication;
+    private final TransactionContextInitializer transactionContextInitializer;
+    private final TransactionResultExtractor transactionResultExtractor;
+    public TransactionCalculatedResult calculate(CalculateTransactionCommand command) {
         Transaction transaction = command.getTransaction();
-        TransactionContext transactionContext = TransactionContextInitializer.initializeContext(transaction);
+        List<Promotion> promotions = promotionApplication.selectPromotions(transaction.getPromotionCodes());
+        TransactionContext transactionContext = transactionContextInitializer.initializeContext(transaction);
         List<TransactionContext> transactionContexts =
                 promotions.stream()
                 .map((promotion) -> TransactionCalculator.calculate(transactionContext, promotion)).toList();
-        return TransactionResultExtractor.compareAndExtractResult(transactionContexts);
+        return transactionResultExtractor.compareAndExtractResult(transactionContexts);
     }
 }
