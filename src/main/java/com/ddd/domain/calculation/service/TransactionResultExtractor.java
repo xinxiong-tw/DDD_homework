@@ -12,6 +12,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class TransactionResultExtractor {
@@ -42,7 +43,7 @@ public class TransactionResultExtractor {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         TransactionContext nextContext = context.getNextTransactionContext();
         while (nextContext != null) {
-            nextContext.getItems().forEach(it -> itemsMap.get(it.getId()).addAppliedPromotion(it.getAppliedPromotionRuleInfo()));
+            nextContext.getItems().forEach(it -> itemsMap.get(it.getId()).addAppliedPromotion(it.getAppliedPromotionInfo()));
             nextContext = nextContext.getNextTransactionContext();
         }
         List<CalculatedResultItem> items = itemsMap.values().stream().toList();
@@ -51,32 +52,49 @@ public class TransactionResultExtractor {
 
     private BigDecimal getFinalTotalPrice(List<CalculatedResultItem> items) {
         return items.stream()
-                .map(CalculatedResultItem::getFinalPrice)
+                .map(CalculatedResultItem::getFinalTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private BigDecimal getOriginTotalPrice(List<CalculatedResultItem> items) {
         return items.stream()
-                .map(CalculatedResultItem::getOriginPrice)
+                .map(CalculatedResultItem::getOriginTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private List<AppliedPromotionRuleInfo> getTotalPromotions(List<CalculatedResultItem> items) {
-        return items.stream().flatMap(it -> it.getAppliedPromotionRuleInfos().stream()).collect(new PromotionCollector());
+    private List<AppliedPromotionInfo> getTotalPromotions(List<CalculatedResultItem> items) {
+        return items.stream()
+                .flatMap(it -> it.getAppliedPromotionRuleInfos().stream()
+                        .map(appliedPromotionInfo -> new AppliedPromotionInfo(
+                                appliedPromotionInfo.id(),
+                                appliedPromotionInfo.info(),
+                                appliedPromotionInfo.promotionDiscount().multiply(new BigDecimal(it.getCount())))
+                        )
+                )
+                .collect(new PromotionCollector());
     }
 }
 
-class PromotionCollector implements Collector<AppliedPromotionRuleInfo, List<AppliedPromotionRuleInfo>, List<AppliedPromotionRuleInfo>> {
+class PromotionCollector implements Collector<AppliedPromotionInfo, List<AppliedPromotionInfo>, List<AppliedPromotionInfo>> {
 
     @Override
-    public Supplier<List<AppliedPromotionRuleInfo>> supplier() {
+    public Supplier<List<AppliedPromotionInfo>> supplier() {
         return ArrayList::new;
     }
 
     @Override
-    public BiConsumer<List<AppliedPromotionRuleInfo>, AppliedPromotionRuleInfo> accumulator() {
+    public BiConsumer<List<AppliedPromotionInfo>, AppliedPromotionInfo> accumulator() {
         return (promotions, item) -> {
-            if (promotions.stream().anyMatch(it -> it.getId().equals(item.getId()))) {
+            int previousSamePromotionIndex = IntStream.range(0, promotions.size())
+                    .filter(index -> promotions.get(index).id().equals(item.id()))
+                    .findFirst()
+                    .orElse(-1);
+            if (previousSamePromotionIndex != -1) {
+                AppliedPromotionInfo previousPromotionInfo = promotions.get(previousSamePromotionIndex);
+                AppliedPromotionInfo newPromotionInfo = new AppliedPromotionInfo(previousPromotionInfo.id(),
+                        previousPromotionInfo.info(),
+                        previousPromotionInfo.promotionDiscount().add(item.promotionDiscount()));
+                promotions.set(previousSamePromotionIndex, newPromotionInfo);
                 return;
             }
             promotions.add(item);
@@ -84,12 +102,12 @@ class PromotionCollector implements Collector<AppliedPromotionRuleInfo, List<App
     }
 
     @Override
-    public BinaryOperator<List<AppliedPromotionRuleInfo>> combiner() {
+    public BinaryOperator<List<AppliedPromotionInfo>> combiner() {
         return null;
     }
 
     @Override
-    public Function<List<AppliedPromotionRuleInfo>, List<AppliedPromotionRuleInfo>> finisher() {
+    public Function<List<AppliedPromotionInfo>, List<AppliedPromotionInfo>> finisher() {
         return null;
     }
 

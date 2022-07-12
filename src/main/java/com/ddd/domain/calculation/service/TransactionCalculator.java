@@ -10,7 +10,7 @@ public class TransactionCalculator {
         return Optional.of(promotion)
                 .filter(it -> promotion.getPromotionConstraint().isSatisfied(transactionContext))
                 .map(Promotion::getRule)
-                .map(it -> it.applyRule(transactionContext))
+                .map(it -> it.applyRule(transactionContext, promotion))
                 .orElse(transactionContext);
     }
 }

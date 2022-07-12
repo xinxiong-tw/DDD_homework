@@ -22,7 +22,7 @@ public class TransactionContextInitializer {
         List<TransactionItem> items = transaction.getItems();
         String channelId = transaction.getChannelId();
         String customerId = transaction.getCustomerId();
-        PriceTable priceTable = productServiceClient.getPriceTableByIds(items.stream().map(TransactionItem::getId).toList());
+        PriceTable priceTable = productServiceClient.getPriceTableByIds(items.stream().map(TransactionItem::id).toList());
         CustomerInfo customerInfo = customerServiceClient.getCustomerInfoById(customerId);
         ChannelInfo channelInfo = new ChannelInfo(channelId);
         return new TransactionContext(customerInfo, priceTable, channelInfo, items);

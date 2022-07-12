@@ -1,6 +1,5 @@
 package com.ddd.domain.calculation.entity;
 
-import com.ddd.domain.calculation.valueObject.TransactionId;
 import lombok.Getter;
 
 import java.util.List;

@@ -2,6 +2,7 @@ package com.ddd.domain.promotion.valueObject.rule;
 
 import com.ddd.domain.calculation.entity.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
+import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.valueObject.Amount;
 import com.ddd.domain.promotion.valueObject.productSet.ListProductSet;
 import com.ddd.domain.promotion.valueObject.productSet.AllProductSet;
@@ -27,7 +28,7 @@ class ReductionRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext);
+        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
 
         Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(1).build(),
@@ -49,7 +50,7 @@ class ReductionRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext);
+        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
 
         Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(50)).count(1).build(),
@@ -71,7 +72,7 @@ class ReductionRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext);
+        TransactionContext appliedTransactionContext = reductionRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
 
         Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1).build(),

@@ -1,6 +1,6 @@
 package com.ddd.domain.calculation.entity;
 
-import com.ddd.domain.calculation.valueObject.AppliedPromotionRuleInfo;
+import com.ddd.domain.calculation.valueObject.AppliedPromotionInfo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class PricedTransactionItem {
     private BigDecimal price;
     private int count;
 
-    private AppliedPromotionRuleInfo appliedPromotionRuleInfo;
+    private AppliedPromotionInfo appliedPromotionInfo;
 
     public String getId() {
         return id;

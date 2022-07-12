@@ -14,9 +14,9 @@ public class TransactionContext {
         this.channelInfo = channelInfo;
         this.items = items.stream()
                 .map((it) -> PricedTransactionItem.builder()
-                        .id(it.getId())
-                        .count(it.getCount())
-                        .price(priceTable.getPriceById(it.getId()))
+                        .id(it.id())
+                        .count(it.count())
+                        .price(priceTable.getPriceById(it.id()))
                         .build()).toList();
     }
 
@@ -39,7 +39,7 @@ public class TransactionContext {
         }
         lastContext.nextTransactionContext = context;
     }
-    private TransactionContext setPricedTransactionContext(List<PricedTransactionItem> items) {
+    private TransactionContext createNextTransactionContext(List<PricedTransactionItem> items) {
         return new TransactionContext(this.getCustomerInfo(), this.getChannelInfo(), items);
     }
 
@@ -64,7 +64,7 @@ public class TransactionContext {
     }
 
     public void addNextPricedTransactionItems(List<PricedTransactionItem> nextPricedTransactionItems) {
-        addTransactionContext(setPricedTransactionContext(nextPricedTransactionItems));
+        addTransactionContext(createNextTransactionContext(nextPricedTransactionItems));
     }
 
     public TransactionContext getLastTransactionContext() {
