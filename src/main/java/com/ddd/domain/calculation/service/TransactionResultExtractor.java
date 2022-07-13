@@ -1,6 +1,6 @@
 package com.ddd.domain.calculation.service;
 
-import com.ddd.domain.calculation.entity.PricedTransactionItem;
+import com.ddd.domain.calculation.valueObject.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.*;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,9 @@ public class TransactionResultExtractor {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         TransactionContext nextContext = context.getNextTransactionContext();
         while (nextContext != null) {
-            nextContext.getItems().forEach(it -> itemsMap.get(it.getId()).addAppliedPromotion(it.getAppliedPromotionInfo()));
+            nextContext.getItems().stream()
+                    .filter(it -> Objects.nonNull(it.getAppliedPromotionInfo()))
+                    .forEach(it -> itemsMap.get(it.getId()).addAppliedPromotion(it.getAppliedPromotionInfo()));
             nextContext = nextContext.getNextTransactionContext();
         }
         List<CalculatedResultItem> items = itemsMap.values().stream().toList();

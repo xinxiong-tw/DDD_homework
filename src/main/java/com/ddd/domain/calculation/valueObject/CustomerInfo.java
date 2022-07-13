@@ -1,9 +1,8 @@
-package com.ddd.domain.calculation.entity;
+package com.ddd.domain.calculation.valueObject;
 
-import com.ddd.domain.calculation.valueObject.CustomerRole;
 public class CustomerInfo {
-    private String id;
-    private CustomerRole customerRole;
+    private final String id;
+    private final CustomerRole customerRole;
 
     public CustomerInfo(String id, CustomerRole customerRole) {
         this.id = id;

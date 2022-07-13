@@ -1,6 +1,6 @@
 package com.ddd.domain.promotion.valueObject.rule;
 
-import com.ddd.domain.calculation.entity.PricedTransactionItem;
+import com.ddd.domain.calculation.valueObject.PricedTransactionItem;
 import com.ddd.domain.calculation.valueObject.AppliedPromotionInfo;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.entity.Promotion;
@@ -29,8 +29,8 @@ public class DiscountRule implements PromotionRule {
                         .price(getDiscountedPrice(it))
                         .count(it.getCount())
                         .appliedPromotionInfo(getAppliedPromotionRuleInfo(it, promotion))
-                        .build()
-                ).toList();
+                        .build())
+                .toList();
     }
 
     private BigDecimal getDiscountedPrice(PricedTransactionItem pricedTransactionItem) {
@@ -43,7 +43,7 @@ public class DiscountRule implements PromotionRule {
     private AppliedPromotionInfo getAppliedPromotionRuleInfo(PricedTransactionItem pricedTransactionItem, Promotion promotion) {
         return Optional.of(pricedTransactionItem)
                 .filter(it -> discountableProductSet.include(it.getId()))
-                .map(it -> new AppliedPromotionInfo(promotion.getId(), promotion.getPromotionInfo(), getDiscountedPrice(pricedTransactionItem)))
+                .map(it -> new AppliedPromotionInfo(promotion.getId(), promotion.getPromotionInfo(), it.getPrice().multiply(discountRate).min(it.getPrice())))
                 .orElse(null);
     }
 }

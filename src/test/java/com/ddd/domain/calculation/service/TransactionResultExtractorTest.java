@@ -1,9 +1,9 @@
 package com.ddd.domain.calculation.service;
 
-import com.ddd.domain.calculation.entity.ChannelInfo;
-import com.ddd.domain.calculation.entity.CustomerInfo;
-import com.ddd.domain.calculation.entity.PricedTransactionItem;
-import com.ddd.domain.calculation.entity.TransactionItem;
+import com.ddd.domain.calculation.valueObject.ChannelInfo;
+import com.ddd.domain.calculation.valueObject.CustomerInfo;
+import com.ddd.domain.calculation.valueObject.PricedTransactionItem;
+import com.ddd.domain.calculation.valueObject.TransactionItem;
 import com.ddd.domain.calculation.valueObject.*;
 import org.junit.jupiter.api.Test;
 
@@ -14,22 +14,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionResultExtractorTest {
-
-    void foo() {
-        //        Promotion promotion1 = new Promotion(PromotionType.GENERIC, "creator", OffsetDateTime.now(), OffsetDateTime.now().plusDays(1),
-//                PromotionInfo.builder().title("title").description("description").tags(List.of("tag1")).build(),
-//                null,
-//                DiscountRule.builder().discountableProductSet(new AllProductSet()).discountRate(new BigDecimal("0.3")).build(),
-//                1);
-//
-//        Promotion promotion2 = new Promotion(PromotionType.GENERIC, "creator", OffsetDateTime.now(), OffsetDateTime.now().plusDays(1),
-//                PromotionInfo.builder().title("title").description("description").tags(List.of("tag1")).build(),
-//                null,
-//                DiscountRule.builder().discountableProductSet(new AllProductSet()).discountRate(new BigDecimal("0.2")).build(),
-//                1);
-//
-//        TransactionCalculator.calculate(context1, promotion1);
-    }
 
     @Test
     void should_return_best_offer_promotion_and_extra_correct_result() {

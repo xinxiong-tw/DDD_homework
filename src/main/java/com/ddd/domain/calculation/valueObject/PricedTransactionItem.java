@@ -1,6 +1,5 @@
-package com.ddd.domain.calculation.entity;
+package com.ddd.domain.calculation.valueObject;
 
-import com.ddd.domain.calculation.valueObject.AppliedPromotionInfo;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,12 +28,21 @@ public class PricedTransactionItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PricedTransactionItem that = (PricedTransactionItem) o;
-        return count == that.count && Objects.equals(id, that.id) && price.compareTo(that.getPrice()) == 0;
+        return count == that.count && id.equals(that.id) && price.compareTo(that.price) == 0 && Objects.equals(appliedPromotionInfo, that.appliedPromotionInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, count);
+        return Objects.hash(id, price, count, appliedPromotionInfo);
     }
 
+    @Override
+    public String toString() {
+        return "PricedTransactionItem{" +
+                "id='" + id + '\'' +
+                ", price=" + price +
+                ", count=" + count +
+                ", appliedPromotionInfo=" + appliedPromotionInfo +
+                '}';
+    }
 }

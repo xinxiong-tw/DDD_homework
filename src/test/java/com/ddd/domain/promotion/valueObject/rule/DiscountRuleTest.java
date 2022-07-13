@@ -1,6 +1,8 @@
 package com.ddd.domain.promotion.valueObject.rule;
 
-import com.ddd.domain.calculation.entity.PricedTransactionItem;
+import com.ddd.domain.calculation.valueObject.AppliedPromotionInfo;
+import com.ddd.domain.calculation.valueObject.PricedTransactionItem;
+import com.ddd.domain.calculation.valueObject.PromotionInfo;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.valueObject.productSet.AllProductSet;
@@ -23,11 +25,19 @@ class DiscountRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = discountRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
+        Promotion stubPromotion = Mockito.mock(Promotion.class);
+        Mockito.when(stubPromotion.getId()).thenReturn(1L);
+        Mockito.when(stubPromotion.getPromotionInfo()).thenReturn(PromotionInfo.builder().title("title").description("description").build());
 
-        Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
-                PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1).build(),
-                PricedTransactionItem.builder().id("2").price(new BigDecimal(64)).count(2).build()
+        discountRule.applyRule(stubTransactionContext, stubPromotion);
+
+        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1)
+                        .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(20)))
+                        .build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(64)).count(2)
+                        .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(16)))
+                        .build()
         ));
     }
 
@@ -41,11 +51,19 @@ class DiscountRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = discountRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
+        Promotion stubPromotion = Mockito.mock(Promotion.class);
+        Mockito.when(stubPromotion.getId()).thenReturn(1L);
+        Mockito.when(stubPromotion.getPromotionInfo()).thenReturn(PromotionInfo.builder().title("title").description("description").build());
 
-        Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
-                PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1).build(),
-                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        discountRule.applyRule(stubTransactionContext, stubPromotion);
+
+        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1)
+                        .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(20)))
+                        .build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2)
+                        .appliedPromotionInfo(null)
+                        .build()
         ));
     }
 
@@ -59,11 +77,17 @@ class DiscountRuleTest {
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
         ));
 
-        TransactionContext appliedTransactionContext = discountRule.applyRule(stubTransactionContext, Mockito.mock(Promotion.class));
+        Promotion stubPromotion = Mockito.mock(Promotion.class);
+        Mockito.when(stubPromotion.getId()).thenReturn(1L);
+        Mockito.when(stubPromotion.getPromotionInfo()).thenReturn(PromotionInfo.builder().title("title").description("description").build());
 
-        Mockito.verify(appliedTransactionContext).addNextPricedTransactionItems(List.of(
-                PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1).build(),
-                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2).build()
+        discountRule.applyRule(stubTransactionContext, stubPromotion);
+
+        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+                PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1)
+                        .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(100))).build(),
+                PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2)
+                        .appliedPromotionInfo(null).build()
         ));
     }
 

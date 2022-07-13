@@ -1,6 +1,6 @@
 package com.ddd.application;
 
-import com.ddd.domain.calculation.entity.Transaction;
+import com.ddd.domain.calculation.valueObject.Transaction;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

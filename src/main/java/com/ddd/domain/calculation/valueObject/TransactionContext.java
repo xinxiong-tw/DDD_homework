@@ -1,10 +1,5 @@
 package com.ddd.domain.calculation.valueObject;
 
-import com.ddd.domain.calculation.entity.ChannelInfo;
-import com.ddd.domain.calculation.entity.CustomerInfo;
-import com.ddd.domain.calculation.entity.PricedTransactionItem;
-import com.ddd.domain.calculation.entity.TransactionItem;
-
 import java.util.List;
 
 public class TransactionContext {
@@ -33,13 +28,10 @@ public class TransactionContext {
     private final List<PricedTransactionItem> items;
 
     private void addTransactionContext(TransactionContext context) {
-        TransactionContext lastContext = this;
-        while (lastContext.nextTransactionContext != null) {
-            lastContext = lastContext.nextTransactionContext;
-        }
-        lastContext.nextTransactionContext = context;
+        getLastTransactionContext().nextTransactionContext = context;
     }
-    private TransactionContext createNextTransactionContext(List<PricedTransactionItem> items) {
+
+    public TransactionContext createNextTransactionContext(List<PricedTransactionItem> items) {
         return new TransactionContext(this.getCustomerInfo(), this.getChannelInfo(), items);
     }
 
@@ -49,10 +41,6 @@ public class TransactionContext {
 
     public CustomerInfo getCustomerInfo() {
         return customerInfo;
-    }
-
-    public PriceTable getPriceTable() {
-        return priceTable;
     }
 
     public ChannelInfo getChannelInfo() {

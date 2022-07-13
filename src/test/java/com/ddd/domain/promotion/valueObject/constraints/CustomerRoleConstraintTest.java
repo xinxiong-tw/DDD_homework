@@ -1,6 +1,6 @@
 package com.ddd.domain.promotion.valueObject.constraints;
 
-import com.ddd.domain.calculation.entity.CustomerInfo;
+import com.ddd.domain.calculation.valueObject.CustomerInfo;
 import com.ddd.domain.calculation.valueObject.CustomerRole;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import org.junit.jupiter.api.Test;

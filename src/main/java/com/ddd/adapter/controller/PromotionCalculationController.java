@@ -2,7 +2,7 @@ package com.ddd.adapter.controller;
 
 import com.ddd.domain.calculation.valueObject.TransactionCalculatedResult;
 import com.ddd.application.CalculationApplication;
-import com.ddd.domain.calculation.entity.Transaction;
+import com.ddd.domain.calculation.valueObject.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

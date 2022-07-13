@@ -1,4 +1,4 @@
-package com.ddd.domain.calculation.entity;
+package com.ddd.domain.calculation.valueObject;
 
 import lombok.AllArgsConstructor;
 

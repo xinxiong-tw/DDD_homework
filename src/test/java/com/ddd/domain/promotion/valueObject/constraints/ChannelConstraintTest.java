@@ -1,6 +1,6 @@
 package com.ddd.domain.promotion.valueObject.constraints;
 
-import com.ddd.domain.calculation.entity.ChannelInfo;
+import com.ddd.domain.calculation.valueObject.ChannelInfo;
 import com.ddd.domain.calculation.valueObject.TransactionContext;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

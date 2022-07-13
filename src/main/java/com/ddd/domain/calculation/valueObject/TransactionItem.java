@@ -1,4 +1,4 @@
-package com.ddd.domain.calculation.entity;
+package com.ddd.domain.calculation.valueObject;
 
 public record TransactionItem(String id, int count) {
 }
