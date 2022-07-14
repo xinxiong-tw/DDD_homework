@@ -3,7 +3,7 @@ package com.ddd.adapter.controller;
 import com.ddd.adapter.request.PromotionRequest;
 import com.ddd.adapter.response.PageablePromotionResponse;
 import com.ddd.adapter.response.PromotionDetailResponse;
-import com.ddd.application.PromotionApplication;
+import com.ddd.application.PromotionApplicationImpl;
 import com.ddd.infra.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/promotions")
 @RequiredArgsConstructor
 public class PromotionController {
-    private final PromotionApplication promotionApplication;
+    private final PromotionApplicationImpl promotionApplication;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

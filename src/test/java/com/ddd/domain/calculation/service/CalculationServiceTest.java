@@ -3,7 +3,7 @@ package com.ddd.domain.calculation.service;
 import com.ddd.adapter.client.CustomerServiceClient;
 import com.ddd.adapter.client.ProductServiceClient;
 import com.ddd.application.CalculateTransactionCommand;
-import com.ddd.application.PromotionApplication;
+import com.ddd.application.PromotionApplicationImpl;
 import com.ddd.domain.calculation.valueObject.*;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.enums.PromotionStatus;
@@ -28,14 +28,15 @@ import java.util.UUID;
 
 class CalculationServiceTest {
 
-    //
     @Test
     void should_return_calculation_result() {
-        PromotionApplication stubPromotionApplication = Mockito.mock(PromotionApplication.class);
+        PromotionApplicationImpl stubPromotionApplication = Mockito.mock(PromotionApplicationImpl.class);
         ProductServiceClient stubProductServiceClient = Mockito.mock(ProductServiceClient.class);
         CustomerServiceClient stubCustomerServiceClient = Mockito.mock(CustomerServiceClient.class);
 
-        CalculationService calculationService = new CalculationService(stubPromotionApplication, new TransactionContextInitializer(stubProductServiceClient, stubCustomerServiceClient), new TransactionResultExtractor());
+        CalculationService calculationService = new CalculationService(stubPromotionApplication,
+                new TransactionContextInitializer(stubProductServiceClient, stubCustomerServiceClient),
+                new TransactionResultExtractor(), new TransactionCalculator());
 
         String channelId = "wechat";
         String customerId = "customer1";

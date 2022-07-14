@@ -18,7 +18,7 @@ class TransactionCalculatorTest {
         Mockito.when(stubPromotion.getPromotionConstraint()).thenReturn(stubPromotionConstraint);
         Mockito.when(stubPromotionConstraint.isSatisfied(dummyTransaction)).thenReturn(false);
 
-        Assertions.assertEquals(dummyTransaction, TransactionCalculator.calculate(dummyTransaction, stubPromotion));
+        Assertions.assertEquals(dummyTransaction, new TransactionCalculator().calculate(dummyTransaction, stubPromotion));
     }
 
     @Test
@@ -32,7 +32,7 @@ class TransactionCalculatorTest {
         Mockito.when(stubPromotion.getRule()).thenReturn(spyPromotionRule);
         Mockito.when(stubPromotionConstraint.isSatisfied(dummyTransaction)).thenReturn(true);
 
-        TransactionCalculator.calculate(dummyTransaction, stubPromotion);
+        new TransactionCalculator().calculate(dummyTransaction, stubPromotion);
 
         Mockito.verify(spyPromotionRule).applyRule(dummyTransaction, stubPromotion);
     }
