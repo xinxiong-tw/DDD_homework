@@ -31,7 +31,7 @@ class DiscountRuleTest {
 
         discountRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(20)))
                         .build(),
@@ -57,7 +57,7 @@ class DiscountRuleTest {
 
         discountRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(80)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(20)))
                         .build(),
@@ -83,7 +83,7 @@ class DiscountRuleTest {
 
         discountRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder().id("1").price(new BigDecimal(0)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(100))).build(),
                 PricedTransactionItem.builder().id("2").price(new BigDecimal(80)).count(2)

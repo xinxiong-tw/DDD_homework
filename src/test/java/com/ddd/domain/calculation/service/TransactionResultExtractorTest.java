@@ -72,7 +72,7 @@ class TransactionResultExtractorTest {
         );
 
 
-        context1.addNextPricedTransactionItems(List.of(
+        context1.addTransactionContext(context1.createNextTransactionContext(List.of(
                 PricedTransactionItem.builder()
                         .id("1")
                         .price(new BigDecimal(90))
@@ -99,7 +99,7 @@ class TransactionResultExtractorTest {
                                         .build(),
                                 new BigDecimal(10)))
                         .build()
-        ));
+        )));
 
 
         TransactionCalculatedResult transactionCalculatedResult = new TransactionResultExtractor().compareAndExtractResult(List.of(context1, context2));

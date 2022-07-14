@@ -36,7 +36,7 @@ class ReductionRuleTest {
 
         reductionRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder()
                         .id("1").price(new BigDecimal(50)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(50))).build(),
@@ -66,7 +66,7 @@ class ReductionRuleTest {
 
         reductionRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder()
                         .id("1").price(new BigDecimal(50)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(50))).build(),
@@ -95,7 +95,7 @@ class ReductionRuleTest {
 
         reductionRule.applyRule(stubTransactionContext, stubPromotion);
 
-        Mockito.verify(stubTransactionContext).addNextPricedTransactionItems(List.of(
+        Mockito.verify(stubTransactionContext).createNextTransactionContext(List.of(
                 PricedTransactionItem.builder()
                         .id("1").price(new BigDecimal(0)).count(1)
                         .appliedPromotionInfo(new AppliedPromotionInfo(stubPromotion.getId(), stubPromotion.getPromotionInfo(), new BigDecimal(100))).build(),

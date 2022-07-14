@@ -19,8 +19,7 @@ public class ReductionRule implements PromotionRule {
 
     @Override
     public TransactionContext applyRule(TransactionContext transactionContext, Promotion promotion) {
-        transactionContext.addNextPricedTransactionItems(getNextPricedTransactionItems(transactionContext, promotion));
-        return transactionContext;
+        return transactionContext.createNextTransactionContext(getNextPricedTransactionItems(transactionContext, promotion));
     }
 
     private List<PricedTransactionItem> getNextPricedTransactionItems(TransactionContext transactionContext, Promotion promotion) {

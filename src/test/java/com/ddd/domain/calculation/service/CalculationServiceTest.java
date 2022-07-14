@@ -83,7 +83,7 @@ class CalculationServiceTest {
                 customerId
         )));
 
-        Assertions.assertEquals(result, new TransactionCalculatedResult(
+        Assertions.assertEquals(new TransactionCalculatedResult(
                 List.of(
                         new CalculatedResultItem("1", new BigDecimal(100), 1, List.of(), new BigDecimal(100)),
                         new CalculatedResultItem("2", new BigDecimal(200), 2, List.of(
@@ -93,7 +93,7 @@ class CalculationServiceTest {
                 new CalculatedResultSummary(new BigDecimal(500), List.of(
                         new AppliedPromotionInfo(p4.getId(), p4.getPromotionInfo(), new BigDecimal(120))
                 ), new BigDecimal(380))
-        ));
+        ), result);
     }
 
     private Promotion createTestPromotion(AmountConstraint promotionConstraint, PromotionRule promotionRule) {

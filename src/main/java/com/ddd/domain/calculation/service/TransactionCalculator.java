@@ -11,6 +11,7 @@ public class TransactionCalculator {
                 .filter(it -> promotion.getPromotionConstraint().isSatisfied(transactionContext))
                 .map(Promotion::getRule)
                 .map(it -> it.applyRule(transactionContext, promotion))
+                .map(transactionContext::addTransactionContext)
                 .orElse(transactionContext);
     }
 }

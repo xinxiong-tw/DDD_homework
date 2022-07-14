@@ -5,7 +5,6 @@ import java.util.List;
 public class TransactionContext {
     public TransactionContext(CustomerInfo customerInfo, PriceTable priceTable, ChannelInfo channelInfo, List<TransactionItem> items) {
         this.customerInfo = customerInfo;
-        this.priceTable = priceTable;
         this.channelInfo = channelInfo;
         this.items = items.stream()
                 .map((it) -> PricedTransactionItem.builder()
@@ -23,12 +22,12 @@ public class TransactionContext {
 
     private TransactionContext nextTransactionContext;
     private final CustomerInfo customerInfo;
-    private PriceTable priceTable;
     private final ChannelInfo channelInfo;
     private final List<PricedTransactionItem> items;
 
-    private void addTransactionContext(TransactionContext context) {
+    public TransactionContext addTransactionContext(TransactionContext context) {
         getLastTransactionContext().nextTransactionContext = context;
+        return this;
     }
 
     public TransactionContext createNextTransactionContext(List<PricedTransactionItem> items) {
@@ -49,10 +48,6 @@ public class TransactionContext {
 
     public TransactionContext getNextTransactionContext() {
         return nextTransactionContext;
-    }
-
-    public void addNextPricedTransactionItems(List<PricedTransactionItem> nextPricedTransactionItems) {
-        addTransactionContext(createNextTransactionContext(nextPricedTransactionItems));
     }
 
     public TransactionContext getLastTransactionContext() {
