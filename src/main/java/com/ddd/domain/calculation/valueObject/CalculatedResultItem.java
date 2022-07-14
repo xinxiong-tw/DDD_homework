@@ -12,7 +12,7 @@ public class CalculatedResultItem {
     private final List<AppliedPromotionInfo> appliedPromotionInfos;
     private BigDecimal finalPrice;
 
-    public CalculatedResultItem(String id, BigDecimal originPrice, int count, List<AppliedPromotionInfo> appliedPromotionInfos, BigDecimal finalPrice) {
+    public  CalculatedResultItem(String id, BigDecimal originPrice, int count, List<AppliedPromotionInfo> appliedPromotionInfos, BigDecimal finalPrice) {
         this.id = id;
         this.originPrice = originPrice;
         this.count = count;
