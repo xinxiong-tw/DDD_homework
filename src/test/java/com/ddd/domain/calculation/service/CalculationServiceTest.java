@@ -34,7 +34,7 @@ class CalculationServiceTest {
         ProductServiceClient stubProductServiceClient = Mockito.mock(ProductServiceClient.class);
         CustomerServiceClient stubCustomerServiceClient = Mockito.mock(CustomerServiceClient.class);
 
-        CalculationService calculationService = new CalculationService(stubPromotionApplication,
+        CalculationService calculationService = new CalculationServiceImpl(stubPromotionApplication,
                 new TransactionContextInitializer(stubProductServiceClient, stubCustomerServiceClient),
                 new TransactionResultExtractor(), new TransactionCalculator());
 
