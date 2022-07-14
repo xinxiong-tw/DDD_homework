@@ -2,7 +2,6 @@ package com.ddd.application;
 
 import com.ddd.adapter.dao.PromotionDao;
 import com.ddd.adapter.repo.PromotionRepository;
-import com.ddd.domain.calculation.outbound.PromotionApplication;
 import com.ddd.domain.promotion.entity.Promotion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

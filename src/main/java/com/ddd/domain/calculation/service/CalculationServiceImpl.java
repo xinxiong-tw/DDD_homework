@@ -1,7 +1,7 @@
 package com.ddd.domain.calculation.service;
 
 import com.ddd.application.CalculateTransactionCommand;
-import com.ddd.domain.calculation.outbound.PromotionApplication;
+import com.ddd.application.PromotionApplication;
 import com.ddd.domain.calculation.valueObject.Transaction;
 import com.ddd.domain.calculation.valueObject.TransactionCalculatedResult;
 import com.ddd.domain.calculation.valueObject.TransactionContext;

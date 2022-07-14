@@ -1,4 +1,4 @@
-package com.ddd.domain.calculation.outbound;
+package com.ddd.application;
 
 import com.ddd.domain.promotion.entity.Promotion;
 
