@@ -4,10 +4,14 @@ import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.enums.PromotionStatus;
 import com.ddd.domain.promotion.enums.PromotionType;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.OffsetDateTime;
 
 @Builder
+@Getter
+@Setter
 public class PageablePromotionResponse {
     private Long id;
     private PromotionType type;

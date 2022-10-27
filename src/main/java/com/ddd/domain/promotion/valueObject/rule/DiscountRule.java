@@ -6,12 +6,14 @@ import com.ddd.domain.calculation.valueObject.TransactionContext;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Builder
+@Getter
 public class DiscountRule implements PromotionRule {
     private BigDecimal discountRate;
     private ProductSet discountableProductSet;

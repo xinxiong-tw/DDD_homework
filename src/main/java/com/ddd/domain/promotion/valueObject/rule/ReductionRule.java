@@ -7,12 +7,14 @@ import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.Amount;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Builder
+@Getter
 public class ReductionRule implements PromotionRule {
     private Amount reduceAmount;
     private ProductSet reducibleProductSet;

@@ -8,7 +8,6 @@ import com.ddd.domain.promotion.valueObject.rule.ReductionRule;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -17,7 +16,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -34,7 +32,7 @@ public class PromotionRuleDao {
     @Column(columnDefinition = "json")
     private List<String> discountableProductIds;
 
-    private BigDecimal discountAmount;
+    private BigDecimal reduceAmount;
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private List<String> reducibleProductIds;
@@ -45,12 +43,28 @@ public class PromotionRuleDao {
                     .discountRate(this.discountRate)
                     .discountableProductSet(ProductSet.of(this.discountableProductIds))
                     .build();
-        } else if (this.discountAmount != null) {
+        } else if (this.reduceAmount != null) {
             return ReductionRule.builder()
                     .reducibleProductSet(ProductSet.of(this.reducibleProductIds))
                     .reduceAmount(Amount.builder()
-                            .discountAmount(this.discountAmount)
+                            .discountAmount(this.reduceAmount)
                             .build())
+                    .build();
+        }
+        return null;
+    }
+
+    public static PromotionRuleDao convertRuleToDao(PromotionRule rule) {
+        if (rule instanceof DiscountRule discountRule) {
+            return PromotionRuleDao.builder()
+                    .discountRate(discountRule.getDiscountRate())
+                    .discountableProductIds(discountRule.getDiscountableProductSet().productIds())
+                    .build();
+        }
+        if (rule instanceof ReductionRule reductionRule) {
+            return PromotionRuleDao.builder()
+                    .reduceAmount(reductionRule.getReduceAmount().getDiscountAmount())
+                    .reducibleProductIds(reductionRule.getReducibleProductSet().productIds())
                     .build();
         }
         return null;

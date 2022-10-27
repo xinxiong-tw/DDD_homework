@@ -49,11 +49,11 @@ public class PromotionDao {
 
     private int priority;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="promotion_constraint_id", referencedColumnName = "id")
     private PromotionConstraintDao promotionConstraint;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="promotion_rule_id", referencedColumnName = "id")
     private PromotionRuleDao rule;
 
@@ -76,6 +76,8 @@ public class PromotionDao {
         return PromotionDao
                 .builder()
                 .code(promotion.getCode())
+                .createTime(promotion.getCreateTime())
+                .lastEditTime(promotion.getLastEditTime())
                 .startTime(promotion.getStartTime())
                 .endTime(promotion.getEndTime())
                 .type(promotion.getType().getValue())
@@ -86,6 +88,7 @@ public class PromotionDao {
                 .tags(promotion.getPromotionInfo().getTags())
                 .priority(promotion.getPriority())
                 .promotionConstraint(PromotionConstraintDao.convertConstraintToDao(promotion.getPromotionConstraint()))
+                .rule(PromotionRuleDao.convertRuleToDao(promotion.getRule()))
                 .build();
     }
 
