@@ -3,14 +3,15 @@ package com.ddd.adapter.request;
 import com.ddd.domain.calculation.valueObject.CustomerRole;
 import com.ddd.domain.promotion.enums.ConstraintType;
 import com.ddd.domain.promotion.enums.Operator;
-import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.*;
-import lombok.Data;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 @Setter
+@Getter
 public class ConstraintRequest {
     private ConstraintType type;
     private BigDecimal minAmount;

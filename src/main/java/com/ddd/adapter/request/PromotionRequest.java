@@ -4,24 +4,33 @@ import com.ddd.domain.calculation.valueObject.PromotionInfo;
 import com.ddd.domain.promotion.entity.Promotion;
 import com.ddd.domain.promotion.enums.PromotionType;
 import com.ddd.domain.promotion.valueObject.Amount;
-import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.constraints.PromotionConstraint;
+import com.ddd.domain.promotion.valueObject.productSet.ProductSet;
 import com.ddd.domain.promotion.valueObject.rule.DiscountRule;
 import com.ddd.domain.promotion.valueObject.rule.PromotionRule;
 import com.ddd.domain.promotion.valueObject.rule.ReductionRule;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
+@Getter
+@Setter
 public class PromotionRequest {
     private PromotionType type;
 
     private String creatorId;
 
     private String editorId;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
+    private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
+    private LocalDateTime endTime;
 
     private String title;
     private String description;
@@ -38,7 +47,7 @@ public class PromotionRequest {
     private List<String> reducibleProductIds;
 
     private PromotionRule convertDtoToPromotionRule() {
-        if(this.discountRate != null) {
+        if (this.discountRate != null) {
             return DiscountRule.builder()
                     .discountRate(this.discountRate)
                     .discountableProductSet(ProductSet.of(this.discountableProductIds))
@@ -61,8 +70,8 @@ public class PromotionRequest {
         return new Promotion(
                 this.type,
                 this.creatorId,
-                this.startTime,
-                this.endTime,
+                ZonedDateTime.of(this.startTime, ZoneId.systemDefault()).toOffsetDateTime(),
+                ZonedDateTime.of(this.endTime, ZoneId.systemDefault()).toOffsetDateTime(),
                 promotionInfo,
                 promotionConstraint,
                 promotionRule,
@@ -78,8 +87,8 @@ public class PromotionRequest {
                 id,
                 this.type,
                 this.editorId,
-                this.startTime,
-                this.endTime,
+                ZonedDateTime.of(this.startTime, ZoneId.systemDefault()).toOffsetDateTime(),
+                ZonedDateTime.of(this.endTime, ZoneId.systemDefault()).toOffsetDateTime(),
                 promotionInfo,
                 promotionConstraint,
                 promotionRule,

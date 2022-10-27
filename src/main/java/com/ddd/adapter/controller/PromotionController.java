@@ -35,7 +35,7 @@ public class PromotionController {
         return promotionApplication.getPromotions(page, size).map(PageablePromotionResponse::fromPromotion);
     }
 
-    @GetMapping(value="/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PromotionDetailResponse getPromotionById(@PathVariable("id") Long id) {
         return promotionApplication.getPromotionById(id).map(PromotionDetailResponse::fromPromotion)
